@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk 
 from Variable. constants import *
-from event_handling import *
+from UI. event_handling import *
 
 """Thiết lập màn hình xóa dự án"""
 def setup_delete_screen( ):

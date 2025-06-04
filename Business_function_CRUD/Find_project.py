@@ -24,7 +24,7 @@ def search_projects( keyword):
     if not keyword:
         return False, None, f' Từ khóa tìm kiếm là bắt buộc'
 # # Đọc Metadata
-    success, message, dataset = read_metadata( METADATA_FILE)
+    success, message, dataset = read_metadata( )
     if not success:
         return False, None, message
 # # Tìm kiếm

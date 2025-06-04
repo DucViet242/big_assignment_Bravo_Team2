@@ -2,7 +2,7 @@ import tkinter as tk
 from Variable.constants import *
 from other_functions.Data_synchronization import *
 from Dataset_metatdata.metadata_processing import *
-from UI.Dasboard import *
+from UI. Dasboard import *
 from tkinter import messagebox, filedialog
 from Business_function_CRUD. Add_project import *
 from Business_function_CRUD. Delete_project import *
@@ -25,7 +25,7 @@ def refresh_delete_list( ):
     for item in delete_projects_table. get_children ( ):
         delete_projects_table. delete( item)
 # # Đọc và hiển thị dữ liệu
-    success, message, dataset = read_metadata( METADATA_FILE)
+    success, message, dataset = read_metadata( )
     if success:
         for row in dataset:
             delete_projects_table. insert ( 
@@ -36,7 +36,7 @@ def refresh_delete_list( ):
 
 def refresh_update_list( ):
 # Làm mới danh sách cập nhập trong tab cập nhập 
-    success, message, dataset = read_metadata( METADATA_FILE)
+    success, message, dataset = read_metadata( )
     Ids = [ ]
     if success:
         for row in dataset:

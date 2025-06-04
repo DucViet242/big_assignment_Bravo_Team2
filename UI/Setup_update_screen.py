@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk 
 from Variable. constants import *
-from event_handling import *
+from UI. event_handling import *
 """Thiết lập màn hình cập nhật dự án"""
 def setup_update_screen( ):
 # Xóa các widget hiện có
@@ -54,3 +54,4 @@ def setup_update_screen( ):
     update_button. pack( pady = 10)
 # Gọi hàm làm mới ban đầu
     refresh_update_list()
+

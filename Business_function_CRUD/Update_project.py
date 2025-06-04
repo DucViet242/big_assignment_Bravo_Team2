@@ -35,7 +35,7 @@ def update_project ( id_or_name_old, name_new, description, code_content):
     dataset_ID = row[ 0]
     dataset_name = row [ 1]
 # Lấy thông tin file metadata. csv hiện tại 
-    success, message, dataset = read_metadata ( METADATA_FILE)
+    success, message, dataset = read_metadata ( )
     if not success:
         return False, message
 #  Kiểm tra name_new có trùng với tên các dự án khác kh?

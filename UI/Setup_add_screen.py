@@ -1,11 +1,11 @@
 import tkinter as tk
 from tkinter import ttk 
 from Variable. constants import *
-from event_handling import *
+from UI. event_handling import *
 ''' Thiết lập màn hình thêm dự án'''
 def setup_add_screen( ):
 #  Xóa các widget hiện có 
-    for widget in add_frame. winfor_childern( ):
+    for widget in add_frame. winfo_children( ):
         widget. destroy( )
 
 #  Tiêu đề
@@ -21,7 +21,7 @@ def setup_add_screen( ):
         text = 'Chi tiết dự án'
     )
     details_frame. pack ( 
-        fill = add_frame, 
+        fill = tk. X, 
         expand = False, 
         padx = 10,
         pady = 10

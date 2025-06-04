@@ -32,7 +32,7 @@ def delete_project ( id_or_name):
     if not success:
         return False, message
 #  Xóa bản ghi file khỏi metadata
-    success, message, dataset = read_metadata( METADATA_FILE)
+    success, message, dataset = read_metadata( )
     if not success:
         return False, message
 

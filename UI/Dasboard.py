@@ -1,12 +1,12 @@
 import tkinter as tk
 from tkinter import ttk 
 from Variable.constants import *
-from UI.event_handling import *
+from UI. event_handling import *
 from Dataset_metatdata.metadata_processing import *
 ''' Thiết lập giao diện Dashboard'''
 def setup_dashboard( ):
 #  Xóa bỏ các widget hiện tại xuất hiện 
-    for widget in dashboard_frame. winfor_children ( ):
+    for widget in dashboard_frame. winfo_children ( ):
         widget. destroy( )
 #  Tiêu đề 
     ttk. Label( 
@@ -18,19 +18,20 @@ def setup_dashboard( ):
     status_frame = ttk. LabelFrame(
         dashboard_frame, text = 'Trạng thái kho lưu trữ',
         font = ( 'Times New Roman', 10)
-    ). pack ( fill = tk. BOTH, expand = False, padx = 10, pady = 10)
+    )
+    status_frame. pack ( fill = tk. BOTH, expand = False, padx = 10, pady = 10)
 #  Nút làm mới trạng thái 
     ttk. Button(
         status_frame, 
         text = 'Làm mới trạng thái ', 
-        command = refresh_all
+        command = refresh_all( )
     ). pack ( pady = 10)
 #  Hiển thị trạng thái thông tin đồng bộ 
     if sync_info:
 #  Số lượng dự án 
         ttk. Label( 
             status_frame, 
-            text = f'Tổng số Dự án: { sync_info[ 'metadata_count']}'
+            text = f'Tổng số Dự án: {sync_info['metadata_count']}'
         ). pack ( pady = 5)
         if sync_info[ 'is_fully_synced']:
             ttk. Label ( 
@@ -53,7 +54,7 @@ def setup_dashboard( ):
             ). pack ( pady = 5)
     else: 
         ttk. Label(
-            search_frame, 
+            status_frame, 
             text = 'Không có thông tin đồng bộ!', 
             foreground = 'orange'
         ). pack ( pady = 5)
@@ -87,7 +88,7 @@ def setup_dashboard( ):
     projects_table. pack( fill = tk. BOTH, expand = True)
 
 #  Đọc và hiển thị dữ liệu 
-    success, message, dataset = read_metadata( METADATA_FILE)
+    success, message, dataset = read_metadata( )
     if success: 
         for row in dataset:
             display_row = row [ :5]

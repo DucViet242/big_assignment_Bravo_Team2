@@ -33,16 +33,6 @@ def add_row_metadata( row):
     except Exception as E:
         return False, f' Thêm dòng dữ liệu bị lỗi { E}'
     
-def read_metadata ( ):
-    try:
-        with open ( METADATA_FILE, 'r', encoding = 'utf-8') as M:
-            file = csv. reader( M)
-            next ( file)
-            dataset = list ( file)
-        return True, f' Đọc file thành cô   ng', dataset  
-    except FileNotFoundError as file_errol:
-        return False, f' Không tồn tài file { file_errol}', None 
-    
 ''' Tìm kiếm bản ghi theo ID'''
 def find_metadata_ID ( ID):
     success, message, dataset = read_metadata( )

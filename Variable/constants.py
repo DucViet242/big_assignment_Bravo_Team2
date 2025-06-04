@@ -1,5 +1,5 @@
 ''' Biến liên quan đến file/ đường dẫn/ thư mục'''
-METADATA_FILE = 'metadata. csv'
+METADATA_FILE = 'metadata.csv'
 METADATA_header = ['ID', 'Name', 'Description', 'Creat_Date', 'Last_Creat_Date', 'Hash']
 FILE_directory = 'File_save_code'
 
