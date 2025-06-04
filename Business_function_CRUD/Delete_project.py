@@ -1,6 +1,6 @@
 import os
 from Variable.constants import *
-from Dataset_metatdata.metadata_processing import *
+from Dataset_metadata.metadata_processing import *
 '''Xóa file'''
 def delete_file ( file_path):
     try:

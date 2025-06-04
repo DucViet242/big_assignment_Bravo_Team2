@@ -1,4 +1,4 @@
-from Dataset_metatdata.metadata_processing import *
+from Dataset_metadata.metadata_processing import *
 from other_functions.file_processing import *
 from other_functions.security import *
 from Variable.constants import *

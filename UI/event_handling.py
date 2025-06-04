@@ -1,7 +1,7 @@
 import tkinter as tk 
 from Variable.constants import *
 from other_functions.Data_synchronization import *
-from Dataset_metatdata.metadata_processing import *
+from Dataset_metadata.metadata_processing import *
 from UI. Dasboard import *
 from tkinter import messagebox, filedialog
 from Business_function_CRUD. Add_project import *

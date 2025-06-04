@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk 
 from Variable.constants import *
 from UI. event_handling import *
-from Dataset_metatdata.metadata_processing import *
+from Dataset_metadata.metadata_processing import *
 ''' Thiết lập giao diện Dashboard'''
 def setup_dashboard( ):
 #  Xóa bỏ các widget hiện tại xuất hiện 

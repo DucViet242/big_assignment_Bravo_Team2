@@ -1,6 +1,6 @@
 import os
 from Variable.constants import *
-from Dataset_metatdata.metadata_processing import *
+from Dataset_metadata.metadata_processing import *
 
 def read_file_content( file_path):
 #  Đọc nội dung file

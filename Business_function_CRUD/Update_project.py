@@ -2,7 +2,7 @@ import os
 from Variable.constants import *
 from other_functions.security import *
 import datetime
-from Dataset_metatdata.metadata_processing import *
+from Dataset_metadata.metadata_processing import *
 #  Ghi file bằng encoding utf-8
 def write_file_content ( file_path, content_code): 
     try:
