@@ -157,11 +157,12 @@ def load_project():
         messagebox. showerror( "Lỗi", "Vui lòng chọn một ID dự án!")
         return
 # # Tìm dự án
-    success, row, message = search_projects( project_id)
+    success, results, message = search_projects( project_id)
     if not success:
         messagebox. showerror( "Lỗi", message)
         return
-# # Điền thông tin
+# # Điền thông tin từ kết quả đầu tiên
+    row = results[0]
     update_name_entry. delete( 0, tk.END)
     update_name_entry. insert( 0, row[ 1])
     update_desc_entry. delete( 0, tk.END)
