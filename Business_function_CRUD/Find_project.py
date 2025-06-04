@@ -7,13 +7,13 @@ def read_file_content( file_path):
     try:
 # # Đọc nội dung file với mã hóa utf-8
         with open ( file_path, 'r', encoding = 'utf-8') as f:
-            code_content = f. read ( )
+            code_content = f.read ( )
         return True, code_content, f' Đọc nội dung file thành công theo mã hóa utf-8'
     except UnicodeDecodeError as U:
 # # Đọc nội dung file với mã hóa binary
         try:
             with open ( file_path, 'rb') as f:
-                code_content = f. read( )
+                code_content = f.read( )
             return True, code_content, f' Đọc nội dung file thành công theo mã hóa binary'
         except Exception as E:
             return False, None, f' Lỗi đọc file binary với lỗi: { E}'
@@ -30,8 +30,8 @@ def search_projects( keyword):
 # # Tìm kiếm
     results = [ ]
     for row in dataset:
-        if keyword. lower( ) in row[ 0]. lower( ) or keyword. lower( ) in row[ 1]. lower ( ):
-            results. append( row)
+        if keyword.lower( ) in row[ 0].lower( ) or keyword.lower( ) in row[ 1].lower ( ):
+            results.append( row)
     if not results:
         return False, None, f' KHông tìm kiếm thấy dự án nào có từ khóa: "{ keyword}"'
     else:
@@ -41,8 +41,8 @@ def get_project_content( id):
 #  Lấy nội dung mã nguồn của dự án 
     if not id:
         return False, None, f' ID là bắt buộc để lấy thông tin'
-    file_path = os. path. join( FILE_directory, f'{id}.txt')
-    if not os. path. exists ( file_path):
+    file_path = os.path.join( FILE_directory, f'{id}.txt')
+    if not os.path.exists ( file_path):
         return False, None, f' Không tìm thấy file chứa ID: { id}'
     success, code_content, message = read_file_content( file_path)
     if not success:

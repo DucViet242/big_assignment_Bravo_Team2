@@ -4,8 +4,8 @@ from Dataset_metatdata.metadata_processing import *
 '''Xóa file'''
 def delete_file ( file_path):
     try:
-        if os. path. exists( file_path):
-            os. remove ( file_path)
+        if os.path.exists( file_path):
+            os.remove ( file_path)
             return True, f' Xóa file thành công'
         else: 
             return False, f' File không tồn tại'
@@ -26,7 +26,7 @@ def delete_project ( id_or_name):
     project_id = row[ 0]
     project_name = row [ 1]
 #  Lấy link file cần xóa
-    file_path = os. path. join ( FILE_directory, f'{project_id}.txt')
+    file_path = os.path.join ( FILE_directory, f'{project_id}.txt')
 #  Xóa file
     success, message = delete_file( file_path)
     if not success:
@@ -36,7 +36,7 @@ def delete_project ( id_or_name):
     if not success:
         return False, message
 
-    dataset. pop( index)
+    dataset.pop( index)
 #  Cập nhập lai metadata
     success, message = write_metadata( dataset)
     if success:

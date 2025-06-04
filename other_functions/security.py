@@ -4,7 +4,7 @@ import hashlib
 def calculate_file_hash( file):
     try: 
         with open ( file, 'rb') as F:
-            hash_value = hashlib. file_digest( F, "sha256")
+            hash_value = hashlib.file_digest( F, "sha256")
         return True, hash_value, f' Đã tính hash thành công'
     except Exception as E:
         return False, None, f' Lỗi tính toán hash'

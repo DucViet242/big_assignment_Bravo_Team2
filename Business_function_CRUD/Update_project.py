@@ -7,7 +7,7 @@ from Dataset_metatdata.metadata_processing import *
 def write_file_content ( file_path, content_code): 
     try:
         with open ( file_path, 'w', encoding = 'utf-8') as f:
-            f. write( content_code)
+            f.write( content_code)
             return True, f' Ghi file thành công'
     except Exception as E:
         return False, f' Ghi file không thành công với lỗi: { E}'
@@ -15,7 +15,7 @@ def write_file_content ( file_path, content_code):
 def write_file_binary ( file_path, content_code_bianry):
     try:
         with open ( file_path, 'wb') as f:
-            f. write( content_code_bianry)
+            f.write( content_code_bianry)
             return True, f' Ghi file thành công'
     except Exception as E:
         return False, f' Ghi file không thành công với lỗi: { E}'
@@ -34,7 +34,7 @@ def update_project ( id_or_name_old, name_new, description, code_content):
 #  Lấy ID và name từ row tìm được 
     dataset_ID = row[ 0]
     dataset_name = row [ 1]
-# Lấy thông tin file metadata. csv hiện tại 
+# Lấy thông tin file metadata.csv hiện tại 
     success, message, dataset = read_metadata ( )
     if not success:
         return False, message
@@ -44,12 +44,12 @@ def update_project ( id_or_name_old, name_new, description, code_content):
         if success:
             return False, f'Tên dự án "{name_new}" đã được sử dụng'
 # Tạo đường dẫn file
-    file_path = os. path. join ( FILE_directory, f'{dataset_ID}.txt')
-    if not os. path. exists( file_path):
+    file_path = os.path.join ( FILE_directory, f'{dataset_ID}.txt')
+    if not os.path.exists( file_path):
         return False, f' Không tìm thấy file với ID: { dataset_ID}'
     success, message = write_file_content( file_path, code_content)
     if not success:
-        code_content_binary = code_content. encode ( 'utf-8', errors = 'replace')
+        code_content_binary = code_content.encode ( 'utf-8', errors = 'replace')
         success, message = write_file_binary( file_path, code_content_binary)
         if not success:
             return False, message
@@ -58,7 +58,7 @@ def update_project ( id_or_name_old, name_new, description, code_content):
     if not success:
         return False, message
 #  Lấy ngày hiện tại 
-    last_creat_date = datetime. datetime. now( )
+    last_creat_date = datetime.datetime.now( )
 # Cập nhập lại dataset 
     dataset[ index][ 1] = name_new
     dataset[ index][ 2] = description

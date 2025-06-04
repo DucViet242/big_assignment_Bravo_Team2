@@ -5,30 +5,30 @@ from Variable.constants import *
 def read_metadata ( ):
     try:
         with open ( METADATA_FILE, 'r', encoding = 'utf-8') as M:
-            file = csv. reader( M)
+            file = csv.reader( M)
             next ( file)
             dataset = list ( file)
         return True, f' Đọc file thành công', dataset  
     except FileNotFoundError as file_errol:
         return False, f' Không tồn tài file { file_errol}', None 
 
-'''Ghi dữ liệu vào file metadata. csv '''  
+'''Ghi dữ liệu vào file metadata.csv '''  
 def write_metadata( dataset):
     try:
         with open ( METADATA_FILE, 'w', encoding = 'utf-8') as M: 
-            file = csv. writer ( M)
-            file. writerow( METADATA_header)
-            file. writerows( dataset)
+            file = csv.writer ( M)
+            file.writerow( METADATA_header)
+            file.writerows( dataset)
         return True, f' Ghi file thành công'
     except Exception as E:
         return False, f' Lỗi ghi file { E}'
     
-''' Thêm 1 dòng bản ghi vào metadata. csv '''
+''' Thêm 1 dòng bản ghi vào metadata.csv '''
 def add_row_metadata( row):
     try: 
         with open ( METADATA_FILE, 'a', encoding = 'utf-8') as M:
-            file = csv. writer( M)
-            file. writerow( row)
+            file = csv.writer( M)
+            file.writerow( row)
         return True, f' Thêm dòng dữ liệu thành công'
     except Exception as E:
         return False, f' Thêm dòng dữ liệu bị lỗi { E}'
