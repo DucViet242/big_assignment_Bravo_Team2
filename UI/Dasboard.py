@@ -21,18 +21,18 @@ def setup_dashboard( ):
     )
     status_frame. pack ( fill = tk. BOTH, expand = False, padx = 10, pady = 10)
 #  Nút làm mới trạng thái 
-    ttk. Button(
-        status_frame, 
-        text = 'Làm mới trạng thái ', 
-        command = refresh_all( )
-    ). pack ( pady = 10)
+    ttk.Button(
+        status_frame,
+        text='Làm mới trạng thái ',
+        command=refresh_all
+    ).pack(pady=10)
 #  Hiển thị trạng thái thông tin đồng bộ 
     if sync_info:
 #  Số lượng dự án 
-        ttk. Label( 
-            status_frame, 
-            text = f'Tổng số Dự án: {sync_info['metadata_count']}'
-        ). pack ( pady = 5)
+        ttk.Label(
+            status_frame,
+            text=f"Tổng số Dự án: {sync_info['metadata_count']}"
+        ).pack(pady=5)
         if sync_info[ 'is_fully_synced']:
             ttk. Label ( 
                 status_frame, 
@@ -41,12 +41,12 @@ def setup_dashboard( ):
             )
         else:
             status_text = 'Trạng thái tệp: '
-            if sync_info[ 'extra_files']:
-                status_text += f'Thừa: { len( sync_info[ 'extra_files'])}.'
-            if sync_info[ 'missing_files']:
-                status_text += f'Thiếu: { len( sync_info[ 'missing_files'])}.'
-            if sync_info[ 'integrity_issues_file']:
-                status_text += f'có { len( sync_info[ 'integrity_issues_file'])} tệp có vấn đề toàn vẹn.'
+            if sync_info['extra_files']:
+                status_text += f"Thừa: {len(sync_info['extra_files'])}."
+            if sync_info['missing_files']:
+                status_text += f"Thiếu: {len(sync_info['missing_files'])}."
+            if sync_info['integrity_issues_file']:
+                status_text += f"có {len(sync_info['integrity_issues_file'])} tệp có vấn đề toàn vẹn."
             ttk. Label( 
                 status_frame, 
                 text = status_text, 

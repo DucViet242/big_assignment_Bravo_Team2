@@ -32,10 +32,11 @@ def setup_add_screen( ):
         details_frame, 
         text = 'ID Dự án: '
     ). grid ( row = 0, column = 0, sticky = tk. W)
-    add_id_entry = ttk. Entry( 
-        details_frame, 
+    add_id_entry = ttk.Entry(
+        details_frame,
         width = 30
-    ). grid ( row = 0, column = 1)
+    )
+    add_id_entry.grid(row = 0, column = 1)
 
 # Tên Dự án
     ttk. Label( 
