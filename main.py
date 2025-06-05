@@ -9,6 +9,7 @@ from UI.Setup_update_screen import setup_update_screen
 from UI.Setup_search_screen import setup_search_screen
 from UI.event_handling import refresh_all
 from other_functions.file_processing import create_directory_file
+from other_functions.Data_synchronization import Data_synchronization
 
 
 def main():
@@ -33,14 +34,22 @@ def main():
     constants.notebook.add(constants.search_frame, text="Search Project")
     constants.notebook.pack(fill=tk.BOTH, expand=True)
 
-    # Setup each screen
+    # Perform initial synchronization
+    success, sync_data, message = Data_synchronization()
+    if success:
+        constants.sync_info = sync_data
+    else:
+        constants.sync_info = {}
+
+
+    # Setup each screen - this will create all necessary widgets
     setup_dashboard()
     setup_add_screen()
     setup_delete_screen()
     setup_update_screen()
     setup_search_screen()
 
-    # Perform initial synchronization and refresh
+    # Now refresh all data after widgets are created
     refresh_all()
 
     constants.root.mainloop()

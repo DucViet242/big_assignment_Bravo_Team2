@@ -1,0 +1,64 @@
+flowchart TD
+    START(["Bắt đầu chương trình"]) --> INITIALIZE["Khởi tạo ứng dụng"]
+    INITIALIZE --> CHECK_DIR{"Kiểm tra thư mục files"}
+    CHECK_DIR -- Không tồn tại --> CREATE_DIR["Tạo thư mục files"]
+    CHECK_DIR -- Tồn tại --> CHECK_CSV{"Kiểm tra metadata.csv"}
+    CREATE_DIR --> CHECK_CSV
+    CHECK_CSV -- Không tồn tại --> CREATE_CSV["Tạo file metadata.csv"]
+    CHECK_CSV -- Tồn tại --> LOAD_DATA["Đọc metadata.csv"]
+    CREATE_CSV --> LOAD_DATA
+    LOAD_DATA --> SYNC["Đồng bộ metadata với files"]
+    SYNC --> DISPLAY_DASHBOARD["Hiển thị Dashboard"]
+    DISPLAY_DASHBOARD --> MAIN_MENU{"Chọn chức năng"}
+    MAIN_MENU -- Dashboard --> REFRESH_DASHBOARD["Làm mới Dashboard"]
+    REFRESH_DASHBOARD --> MAIN_MENU
+    MAIN_MENU -- Thêm dự án --> ADD_PROJECT{"Chọn cách thêm"}
+    MAIN_MENU -- Xóa dự án --> DELETE_PROJECT["Xóa dự án"]
+    MAIN_MENU -- Cập nhật dự án --> UPDATE_PROJECT["Cập nhật dự án"]
+    MAIN_MENU -- Tìm kiếm dự án --> SEARCH_PROJECT["Tìm kiếm dự án"]
+    MAIN_MENU -- Thoát --> END(["Kết thúc chương trình"])
+    ADD_PROJECT -- Nhập trực tiếp --> ADD_DIRECT["Nhập thông tin dự án"]
+    ADD_PROJECT -- Tải file --> ADD_FILE["Chọn file từ máy"]
+    ADD_DIRECT --> VALIDATE_ADD{"Kiểm tra thông tin"}
+    ADD_FILE --> VALIDATE_ADD
+    VALIDATE_ADD -- Không hợp lệ --> SHOW_ERROR_ADD["Hiển thị lỗi"]
+    SHOW_ERROR_ADD --> ADD_PROJECT
+    VALIDATE_ADD -- Hợp lệ --> CHECK_ID_EXISTS{"Kiểm tra ID tồn tại"}
+    CHECK_ID_EXISTS -- Đã tồn tại --> SHOW_ERROR_ID_EXISTS["Hiển thị lỗi"]
+    SHOW_ERROR_ID_EXISTS --> ADD_PROJECT
+    CHECK_ID_EXISTS -- Chưa tồn tại --> SAVE_PROJECT_FILES["Lưu file code"]
+    SAVE_PROJECT_FILES --> CALCULATE_HASH["Tính mã hash"]
+    CALCULATE_HASH --> SAVE_METADATA["Lưu vào metadata.csv"]
+    SAVE_METADATA --> SHOW_SUCCESS_ADD["Hiển thị thành công"]
+    SHOW_SUCCESS_ADD --> MAIN_MENU
+    DELETE_PROJECT --> INPUT_DELETE["Nhập ID/Tên cần xóa"]
+    INPUT_DELETE --> VALIDATE_DELETE{"Kiểm tra ID/Tên"}
+    VALIDATE_DELETE -- Không tồn tại --> SHOW_ERROR_DELETE["Hiển thị lỗi"]
+    SHOW_ERROR_DELETE --> DELETE_PROJECT
+    VALIDATE_DELETE -- Tồn tại --> CONFIRM_DELETE{"Xác nhận xóa"}
+    CONFIRM_DELETE -- Không --> DELETE_PROJECT
+    CONFIRM_DELETE -- Có --> DELETE_FILE["Xóa file code"]
+    DELETE_FILE --> UPDATE_METADATA_DELETE["Cập nhật metadata.csv"]
+    UPDATE_METADATA_DELETE --> SHOW_SUCCESS_DELETE["Hiển thị thành công"]
+    SHOW_SUCCESS_DELETE --> MAIN_MENU
+    UPDATE_PROJECT --> SELECT_PROJECT_UPDATE["Chọn ID dự án"]
+    SELECT_PROJECT_UPDATE --> VALIDATE_UPDATE{"Kiểm tra ID"}
+    VALIDATE_UPDATE -- Không tồn tại --> SHOW_ERROR_UPDATE["Hiển thị lỗi"]
+    SHOW_ERROR_UPDATE --> UPDATE_PROJECT
+    VALIDATE_UPDATE -- Tồn tại --> LOAD_PROJECT_DATA["Tải thông tin dự án"]
+    LOAD_PROJECT_DATA --> EDIT_PROJECT_DATA["Sửa thông tin và code"]
+    EDIT_PROJECT_DATA --> SAVE_UPDATED_DATA["Lưu file code cập nhật"]
+    SAVE_UPDATED_DATA --> CALCULATE_NEW_HASH["Tính lại mã hash"]
+    CALCULATE_NEW_HASH --> UPDATE_METADATA["Cập nhật metadata.csv"]
+    UPDATE_METADATA --> SHOW_SUCCESS_UPDATE["Hiển thị thành công"]
+    SHOW_SUCCESS_UPDATE --> MAIN_MENU
+    SEARCH_PROJECT --> INPUT_SEARCH["Nhập từ khóa tìm kiếm"]
+    INPUT_SEARCH --> PERFORM_SEARCH["Tìm kiếm trong metadata"]
+    PERFORM_SEARCH --> DISPLAY_RESULTS["Hiển thị kết quả"]
+    DISPLAY_RESULTS --> SELECT_RESULT{"Chọn kết quả"}
+    SELECT_RESULT -- Chọn --> PREVIEW_CODE["Xem preview code"]
+    PREVIEW_CODE --> SELECT_RESULT
+    SELECT_RESULT -- Quay lại --> MAIN_MENU
+
+
+
