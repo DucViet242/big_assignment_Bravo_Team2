@@ -124,9 +124,6 @@ def add_project_from_file(id, name, description, source_file_path):
     # Tính mã hash 
     success, hash_value, message = calculate_file_hash(file_path)
     if not success:
-        # Xóa file nếu không tính được hash
-        if os.path.exists(file_path):
-            os.remove(file_path)
         return False, message
         
     # Lấy ngày hiện tại 

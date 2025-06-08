@@ -15,7 +15,7 @@ def setup_dashboard():
     ttk.Label(
         constants.dashboard_frame,
         text='Bảng Điều Khiển chương trình quản lý dự án của Công ty phát triển phần mềm Bravo',
-        font=('Times New Roman', 20, 'bold')
+        font=("Arial", 17, "bold")
     ).pack(pady=10)
     
     # Frame trạng thái 

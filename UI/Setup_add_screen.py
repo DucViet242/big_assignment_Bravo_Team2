@@ -15,7 +15,7 @@ def setup_add_screen():
     ttk.Label(
         constants.add_frame,
         text='Thêm Dự án Mới', 
-        font=('Times New Roman', 20, 'bold')
+        font=("Arial", 14, "bold")
     ).pack(pady=10)
 
     # Frame chi tiết dự án 

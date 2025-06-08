@@ -22,42 +22,6 @@ def refresh_all():
     setup_dashboard()
     refresh_delete_list()
     refresh_update_list()
-    
-def refresh_delete_list():
-    # Làm mới danh sách dự án trong tab xóa
-    
-    if constants.delete_projects_table is None:
-        return
-        
-    for item in constants.delete_projects_table.get_children():
-        constants.delete_projects_table.delete(item)
-        
-    # Đọc và hiển thị dữ liệu
-    success, message, dataset = read_metadata()
-    if success:
-        for row in dataset:
-            # Kiểm tra row có đủ dữ liệu không
-            if row and len(row) >= 3:
-                constants.delete_projects_table.insert(
-                    '', 
-                    tk.END, 
-                    values=(row[0], row[1], row[2])
-                )
-
-def refresh_update_list():
-    # Làm mới danh sách cập nhập trong tab cập nhập
-    
-    if constants.update_id_combo is None:
-        return
-        
-    success, message, dataset = read_metadata()
-    Ids = []
-    if success:
-        for row in dataset:
-            # Kiểm tra row có đủ dữ liệu không
-            if row and len(row) >= 1:
-                Ids.append(row[0])
-        constants.update_id_combo['values'] = Ids
 
 def handle_add_project():
     # Xử lý khi nhấn nút Thêm dự án
@@ -105,42 +69,7 @@ def handle_add_project():
         refresh_all()
     else:
         messagebox.showerror("Lỗi", message)
-
-def toggle_input_method():
-    # Chuyển đổi giữa hai chế độ nhập dự án
     
-    if constants.input_method_var.get() == "direct":
-        constants.file_frame.pack_forget()
-        constants.direct_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
-    else:
-        constants.direct_frame.pack_forget()
-        constants.file_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
-
-def browse_file():
-    # Mở hộp thoại chọn file
-    
-    file_path = filedialog.askopenfilename(
-        title="Chọn tệp mã nguồn",
-        filetypes=[("Tệp văn bản", "*.txt"), ("Tất cả các tệp", "*.*")]
-    )
-    if file_path:
-        constants.file_path_var.set(file_path)
-
-def on_delete_project_select(event):
-    # Xử lý sự kiện khi double-click vào một dự án trong tab Xóa
-    
-    # Lấy mục đã chọn
-    selected_item = constants.delete_projects_table.focus()
-    if not selected_item:
-        return
-        
-    # Lấy giá trị của mục đã chọn
-    values = constants.delete_projects_table.item(selected_item, "values")
-    
-    # Đặt ID vào entry
-    constants.delete_entry.delete(0, tk.END)
-    constants.delete_entry.insert(0, values[0])  # ID
-
 def handle_delete_project():
     # Xử lý khi nhấn nút Xóa dự án
     
@@ -176,6 +105,140 @@ def handle_delete_project():
         refresh_all()
     else:
         messagebox.showerror("Lỗi", message)
+    
+def handle_update_project():
+    # Xử lý khi nhấn nút Cập nhật dự án
+    
+    # Lấy ID đã chọn
+    project_id = constants.update_id_combo.get()
+    if not project_id:
+        messagebox.showerror("Lỗi", "Vui lòng chọn một ID dự án!")
+        return
+        
+    # Lấy thông tin đã cập nhật
+    project_name = constants.update_name_entry.get().strip()
+    project_desc = constants.update_desc_entry.get().strip()
+    if not project_name:
+        messagebox.showerror("Lỗi", "Tên dự án là bắt buộc!")
+        return
+        
+    # Lấy mã nguồn
+    code_content = constants.update_code_text.get("1.0", tk.END)
+    
+    # Gọi hàm cập nhật dự án
+    success, message = update_project(project_id, project_name, project_desc, code_content)
+    
+    # Hiển thị kết quả
+    if success:
+        messagebox.showinfo("Thành công", message)
+        
+        # Gọi hàm làm mới các màn hình khác
+        refresh_all()
+    else:
+        messagebox.showerror("Lỗi", message)
+
+def handle_search_projects():
+    # Xử lý khi nhấn nút Tìm kiếm
+    
+    # Lấy từ khóa
+    keyword = constants.search_entry.get().strip()
+    if not keyword:
+        messagebox.showinfo("Thông báo", "Vui lòng nhập từ khóa tìm kiếm!")
+        return
+        
+    # Xóa kết quả cũ
+    for item in constants.search_results_table.get_children():
+        constants.search_results_table.delete(item)
+        
+    # Gọi hàm tìm kiếm
+    success, results, message = search_projects(keyword)
+    
+    # Xóa nội dung xem trước
+    constants.preview_text.config(state=tk.NORMAL)
+    constants.preview_text.delete("1.0", tk.END)
+    constants.preview_text.config(state=tk.DISABLED)
+    
+    # Hiển thị kết quả
+    if not success:
+        messagebox.showinfo("Kết quả", message)
+        return
+        
+    # Hiển thị kết quả vào bảng
+    for row in results:
+        constants.search_results_table.insert("", tk.END, values=(row[0], row[1], row[2]))
+    
+def refresh_delete_list():
+    # Làm mới danh sách dự án trong tab xóa
+    
+    if constants.delete_projects_table is None:
+        return
+        
+    for item in constants.delete_projects_table.get_children():
+        constants.delete_projects_table.delete(item)
+        
+    # Đọc và hiển thị dữ liệu
+    success, message, dataset = read_metadata()
+    if success:
+        for row in dataset:
+            # Kiểm tra row có đủ dữ liệu không
+            if row and len(row) >= 3:
+                constants.delete_projects_table.insert(
+                    '', 
+                    tk.END, 
+                    values=(row[0], row[1], row[2])
+                )
+
+def refresh_update_list():
+    # Làm mới danh sách cập nhập trong tab cập nhập
+    
+    if constants.update_id_combo is None:
+        return
+        
+    success, message, dataset = read_metadata()
+    Ids = []
+    if success:
+        for row in dataset:
+            # Kiểm tra row có đủ dữ liệu không
+            if row and len(row) >= 1:
+                Ids.append(row[0])
+        constants.update_id_combo['values'] = Ids
+
+
+
+def toggle_input_method():
+    # Chuyển đổi giữa hai chế độ nhập dự án
+    
+    if constants.input_method_var.get() == "direct":
+        constants.file_frame.pack_forget()
+        constants.direct_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+    else:
+        constants.direct_frame.pack_forget()
+        constants.file_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+
+def browse_file():
+    # Mở hộp thoại chọn file
+    
+    file_path = filedialog.askopenfilename(
+        title="Chọn tệp mã nguồn",
+        filetypes=[("Tệp văn bản", "*.txt"), ("Tất cả các tệp", "*.*")]
+    )
+    if file_path:
+        constants.file_path_var.set(file_path)
+
+def on_delete_project_select(event):
+    # Xử lý sự kiện khi double-click vào một dự án trong tab Xóa
+    
+    # Lấy mục đã chọn
+    selected_item = constants.delete_projects_table.focus()
+    if not selected_item:
+        return
+        
+    # Lấy giá trị của mục đã chọn
+    values = constants.delete_projects_table.item(selected_item, "values")
+    
+    # Đặt ID vào entry
+    constants.delete_entry.delete(0, tk.END)
+    constants.delete_entry.insert(0, values[0])  # ID
         
 def load_project():
     # Tải thông tin dự án khi nhấn nút Tải
@@ -214,67 +277,6 @@ def load_project():
     else:
         # Nếu là binary, hiển thị thông báo
         constants.update_code_text.insert("1.0", "[Nội dung binary - không thể hiển thị]")
-
-def handle_update_project():
-    # Xử lý khi nhấn nút Cập nhật dự án
-    
-    # Lấy ID đã chọn
-    project_id = constants.update_id_combo.get()
-    if not project_id:
-        messagebox.showerror("Lỗi", "Vui lòng chọn một ID dự án!")
-        return
-        
-    # Lấy thông tin đã cập nhật
-    project_name = constants.update_name_entry.get().strip()
-    project_desc = constants.update_desc_entry.get().strip()
-    if not project_name:
-        messagebox.showerror("Lỗi", "Tên dự án là bắt buộc!")
-        return
-        
-    # Lấy mã nguồn
-    code_content = constants.update_code_text.get("1.0", tk.END)
-    
-    # Gọi hàm cập nhật dự án
-    success, message = update_project(project_id, project_name, project_desc, code_content)
-    
-    # Hiển thị kết quả
-    if success:
-        messagebox.showinfo("Thành công", message)
-        
-        # Gọi hàm làm mới các màn hình khác
-        refresh_all()
-    else:
-        messagebox.showerror("Lỗi", message)
-        
-def handle_search_projects():
-    # Xử lý khi nhấn nút Tìm kiếm
-    
-    # Lấy từ khóa
-    keyword = constants.search_entry.get().strip()
-    if not keyword:
-        messagebox.showinfo("Thông báo", "Vui lòng nhập từ khóa tìm kiếm!")
-        return
-        
-    # Xóa kết quả cũ
-    for item in constants.search_results_table.get_children():
-        constants.search_results_table.delete(item)
-        
-    # Gọi hàm tìm kiếm
-    success, results, message = search_projects(keyword)
-    
-    # Xóa nội dung xem trước
-    constants.preview_text.config(state=tk.NORMAL)
-    constants.preview_text.delete("1.0", tk.END)
-    constants.preview_text.config(state=tk.DISABLED)
-    
-    # Hiển thị kết quả
-    if not success:
-        messagebox.showinfo("Kết quả", message)
-        return
-        
-    # Hiển thị kết quả vào bảng
-    for row in results:
-        constants.search_results_table.insert("", tk.END, values=(row[0], row[1], row[2]))
 
 def on_search_result_select(event):
     # Xử lý sự kiện khi chọn một dự án trong kết quả tìm kiếm
